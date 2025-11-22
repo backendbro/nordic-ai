@@ -8,6 +8,8 @@ import Heading from "@/components/Heading";
 interface ReadingTimeProps {
   minutes: number;
 }
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ReadingTime: React.FC<ReadingTimeProps> = ({ minutes }) => (
   <span className="text-gray-500 text-sm blog-reading-time">
     {minutes} min read
@@ -50,7 +52,6 @@ export default function ContentBody({
         </div>
         <p className="mt-8 border-b border-slate-600 text-xl font-medium text-slate-300">
           {formattedDate}
-          
         </p>
 
         <div className="body-wrapper">
