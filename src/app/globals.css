@@ -1,0 +1,157 @@
+/* 1. Pull in the full Tailwind engine and all layers in one go */
+@import "tailwindcss";
+
+/* 2. Load the official Typography plugin so you get
+      all of the `prose`, `prose-xl`, `prose-slate`, `prose-invert`, etc. */
+
+/* 3. Declare your design tokens via @theme (so they become CSS variables
+      that you can use throughout your project) */
+@theme {
+  --font-urbanist: "Urbanist", "Jost", sans-serif;
+}
+
+/* 4. Layer in your base styles so they don’t get stomped by Tailwind’s Preflight */
+@layer base {
+  body {
+    font-family: var(--font-urbanist) !important;
+  }
+
+  /* Center the content and constrain width */
+  .body-wrapper {
+    margin: 2rem auto; /* vertical spacing + center */
+    max-width: 720px; /* comfortable reading line-length */
+    padding: 0 1rem; /* small side padding on mobile */
+  }
+
+  /* Base text styles */
+  .markdown-style {
+    color: #e2e8f0; /* light slate on dark bg */
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.75; /* generous line-height */
+    font-family: ui-sans-serif, system-ui, sans-serif;
+  }
+
+  /* Headings */
+  .markdown-style h2,
+  .markdown-style h3,
+  .markdown-style h4 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #f1f5f9; /* near-white */
+  }
+
+  /* Paragraphs */
+  .markdown-style p {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Links */
+  .markdown-style a {
+    color: #7c3aed; /* vivid accent */
+    text-decoration: underline;
+  }
+
+  /* Images */
+  .markdown-style img {
+    display: block;
+    margin: 1.5rem auto;
+    width: 100%; /* ← full width of the .body-wrapper */
+    max-width: none; /* ← remove the previous cap */
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Videos / iframes */
+  .markdown-style iframe,
+  .markdown-style video {
+    display: block;
+    margin: 1.5rem auto;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 16/9; /* maintain 16:9 */
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Blockquotes */
+  .markdown-style blockquote {
+    margin: 1.5rem 0;
+    padding: 0.75rem 1rem;
+    border-left: 4px solid #475569; /* slate-600 */
+    background: rgba(71, 85, 105, 0.1);
+    color: #cbd5e1; /* slate-200 */
+    font-style: italic;
+  }
+
+  /* Code blocks */
+  .markdown-style pre {
+    background: #1e293b; /* slate-800 */
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Inline code */
+  .markdown-style code {
+    background: #334155; /* slate-700 */
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-family: Menlo, monospace;
+    font-size: 0.95em;
+  }
+
+  .background-gradient {
+    /* Layer a cool moon glow + subtle green forest tint + soft vignette */
+    background:
+      /* moon glow (soft pale bluish-white) */
+      radial-gradient(
+        circle at 50% 10%,
+        rgba(240, 248, 255, 0.6) 0%,
+        rgba(240, 248, 255, 0) 40%
+      ),
+      /* forest ambient (faint greenish-blue) */
+        radial-gradient(
+          circle at 50% 20%,
+          rgba(100, 150, 120, 0.2) 0%,
+          rgba(100, 150, 120, 0) 60%
+        ),
+      /* edge vignette (deep charcoal) */
+        radial-gradient(
+          circle at center,
+          rgba(15, 23, 42, 0) 50%,
+          rgba(15, 23, 42, 0.6) 100%
+        );
+    background-blend-mode: screen, overlay, multiply;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  /* 1) Target the prose wrapper that Prismic adds */
+  .blog-body .max-w-prose {
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+  }
+
+  /* 2) (Optional) bump up your base font-size even more */
+  .blog-body {
+    width: 100%; /* fluid on small screens */
+    max-width: 100ch; /* caps at ~65 characters per line */
+    margin: 0 auto; /* centers it in the viewport */
+    padding: 0 1rem; /* small gutters on mobile */
+    font-size: 1.125rem; /* ~18px base */
+    line-height: 1.75;
+    color: #e5e7eb;
+  }
+
+  /* 3) (Optional) you can also force images/text-align if needed */
+  .blog-body img {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+}
