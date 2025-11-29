@@ -55,8 +55,8 @@ export default function ContactForm() {
 
   return (
     <>
-      <section className="background-gradient min-h-screen flex lg:items-center py-20 sm:py-28 lg:py-40">
-        <div className="content-layer max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-[220px] px-4 sm:px-8 lg:px-12">
+      <section className="min-h-screen flex lg:items-center py-20 sm:py-28 lg:py-40">
+        <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-[220px] px-4 sm:px-8 lg:px-12">
           {/* LEFT */}
           <div className="space-y-12">
             <h2 className="text-3xl sm:text-4xl lg:text-[3.4rem] leading-tight font-semibold max-w-xl">
@@ -161,48 +161,12 @@ export default function ContactForm() {
         </div>
       </section>
 
-      {/* ✅ INLINE CSS ONLY */}
+      {/* INLINE STYLES (CONTACT FORM ONLY) */}
       <style jsx>{`
         :root {
           --violet-1: #8b5cf6;
           --aqua-1: #5eead4;
           --label: #94a3b8;
-        }
-
-        .background-gradient {
-          position: relative;
-          background:
-            radial-gradient(
-              circle at 20% 10%,
-              rgba(140, 160, 255, 0.22),
-              transparent 45%
-            ),
-            radial-gradient(
-              circle at 80% 30%,
-              rgba(120, 255, 200, 0.12),
-              transparent 50%
-            ),
-            radial-gradient(
-              circle at center,
-              rgba(10, 15, 30, 0) 40%,
-              rgba(10, 15, 30, 0.9) 100%
-            );
-          overflow: hidden;
-        }
-
-        .background-gradient::after {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='.25'/></svg>");
-          opacity: 0.12;
-          pointer-events: none;
-          z-index: 1;
-        }
-
-        .content-layer {
-          position: relative;
-          z-index: 2;
         }
 
         .field-wrap {
