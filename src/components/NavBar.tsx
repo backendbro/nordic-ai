@@ -349,10 +349,11 @@ function DesktopMenu({
 
       <li>
         <Button
-          linkField={settings.data.cta_link}
-          label={settings.data.cta_label}
-          className="ml-3 bg-gradient-to-r from-slate-300 to-slate-400 hover:from-cyan-300 hover:to-blue-400 text-black"
-        />
+  linkField={settings.data.cta_link}
+  label={settings.data.cta_label}
+  className="ml-3 bg-gradient-to-r from-slate-300 to-slate-400 hover:from-cyan-300 hover:to-blue-400 !text-black"
+/>
+
       </li>
     </div>
   );
