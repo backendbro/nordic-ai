@@ -24,6 +24,7 @@ const Experience = ({ slice }: ExperienceProps): JSX.Element => {
         <div
           key={index}
           className="
+          mt-3
             w-full 
             max-w-xl 
             mx-auto
