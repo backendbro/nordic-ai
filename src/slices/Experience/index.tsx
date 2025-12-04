@@ -13,56 +13,59 @@ const Experience = ({ slice }: ExperienceProps): JSX.Element => {
     <Bounded
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="flex flex-col items-center"
     >
-      <Heading as="h2" size="lg" className="mb-10 text-center">
+      {/* Section Heading */}
+      <Heading as="h2" size="lg">
         {slice.primary.heading}
       </Heading>
 
-      <div className="flex w-full max-w-4xl flex-col items-center gap-10">
-        {slice.primary.experience_details.map((item, index) => (
-          <div
-            key={index}
-            className="
-              w-full 
-              max-w-xl 
-              rounded-xl 
-              bg-slate-800/50 
-              p-5 
-              shadow-lg 
-              ring-1 
-              ring-slate-700 
-              transition 
-              duration-300 
-              hover:ring-slate-500
-              md:max-w-3xl
-              md:p-7
-            "
+      {/* Experience Cards */}
+      {slice.primary.experience_details.map((item, index) => (
+        <div
+          key={index}
+          className="
+            w-full 
+            max-w-xl 
+            mx-auto
+            mb-8
+            rounded-xl 
+            bg-slate-800/50 
+            p-5 
+            shadow-lg 
+            ring-1 
+            ring-slate-700 
+            transition 
+            duration-300 
+            hover:ring-slate-500
+            md:max-w-3xl
+            md:ml-12
+            md:mt-16
+            md:p-6
+          "
+        >
+          <Heading
+            as="h3"
+            size="sm"
+            className="text-slate-100 text-xl font-bold leading-snug"
           >
-            <Heading
-              as="h3"
-              size="sm"
-              className="text-lg font-bold leading-snug text-slate-100 md:text-xl"
-            >
-              {item.title}
-            </Heading>
+            {item.title}
+          </Heading>
 
-            {/* TAGS */}
-            <div className="exp-tags">
-              {item.college?.split("·").map((tag, i) => (
-                <span key={i} className="exp-tag">
-                  {tag.trim()}
-                </span>
-              ))}
-            </div>
-
-            {/* DESCRIPTION */}
-            <div className="exp-typography">
-              <PrismicRichText field={item.description} />
-            </div>
+          {/* Tags */}
+          <div className="exp-tags">
+            {item.college?.split("·").map((tag, i) => (
+              <span key={i} className="exp-tag">
+                {tag.trim()}
+              </span>
+            ))}
           </div>
-        ))}
-      </div>
+
+          {/* Description */}
+          <div className="exp-typography">
+            <PrismicRichText field={item.description} />
+          </div>
+        </div>
+      ))}
     </Bounded>
   );
 };
