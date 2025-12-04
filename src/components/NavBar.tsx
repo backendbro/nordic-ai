@@ -181,8 +181,7 @@
 
 import clsx from "clsx";
 import React, { useState } from "react";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Content, KeyTextField, asLink } from "@prismicio/client";
+import { Content, asLink } from "@prismicio/client";
 import { PrismicNextLink } from "@prismicio/next";
 import Link from "next/link";
 import { MdMenu, MdClose } from "react-icons/md";
@@ -214,7 +213,7 @@ export default function NavBar({
           </button>
         </div>
 
-        {/* ✅ MOBILE SIDE MENU — FIXED BACKGROUND */}
+        {/* MOBILE SIDE MENU */}
         <div
           className={clsx(
             "fixed inset-0 z-50 flex flex-col items-end gap-4 bg-slate-900 pr-4 pt-14 transition-all duration-500 ease-out md:hidden",
@@ -238,9 +237,7 @@ export default function NavBar({
                   field={link}
                   onClick={() => setOpen(false)}
                   aria-current={
-                    pathname.includes(asLink(link) as string)
-                      ? "page"
-                      : undefined
+                    pathname.includes(asLink(link) as string) ? "page" : undefined
                   }
                 >
                   <span
@@ -251,9 +248,7 @@ export default function NavBar({
                         : "translate-y-12"
                     )}
                   />
-                  <span className="relative transition-all duration-300">
-                    {label}
-                  </span>
+                  <span className="relative transition-all duration-300">{label}</span>
                 </PrismicNextLink>
               </li>
 
@@ -272,7 +267,8 @@ export default function NavBar({
             <Button
               linkField={settings.data.cta_link}
               label={settings.data.cta_label}
-              className="ml-3 bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400"
+              className="ml-3 bg-gradient-to-r from-slate-300 to-slate-400 hover:from-cyan-300 hover:to-blue-400"
+              textColor="black" // <-- ensures readability on dark side menu
             />
           </li>
         </div>
@@ -349,12 +345,12 @@ function DesktopMenu({
 
       <li>
         <Button
-  linkField={settings.data.cta_link}
-  label={settings.data.cta_label}
-  className="ml-3 bg-gradient-to-r from-slate-300 to-slate-400 hover:from-cyan-300 hover:to-blue-400 !text-black"
-/>
-
+          linkField={settings.data.cta_link}
+          label={settings.data.cta_label}
+          className="ml-3 bg-gradient-to-r from-slate-300 to-slate-400 hover:from-cyan-300 hover:to-blue-400"
+        />
       </li>
     </div>
   );
 }
+
