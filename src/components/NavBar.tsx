@@ -176,13 +176,12 @@
 //   );
 // }
 
-
 "use client";
 
 import clsx from "clsx";
 import React, { useState } from "react";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Content, KeyTextField, asLink } from "@prismicio/client";
+import { Content, asLink } from "@prismicio/client";
 import { PrismicNextLink } from "@prismicio/next";
 import Link from "next/link";
 import { MdMenu, MdClose } from "react-icons/md";
@@ -214,10 +213,10 @@ export default function NavBar({
           </button>
         </div>
 
-        {/* ✅ MOBILE SIDE MENU — FIXED BACKGROUND */}
+        {/* MOBILE SIDE MENU — DARK BLUE BACKGROUND */}
         <div
           className={clsx(
-            "fixed inset-0 z-50 flex flex-col items-end gap-4 bg-slate-900 pr-4 pt-14 transition-all duration-500 ease-out md:hidden",
+            "fixed inset-0 z-50 flex flex-col items-end gap-4 bg-[#1e3a8a] pr-4 pt-14 transition-all duration-500 ease-out md:hidden",
             open ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
           )}
         >
@@ -245,7 +244,7 @@ export default function NavBar({
                 >
                   <span
                     className={clsx(
-                      "absolute inset-0 z-0 h-full translate-y-12 rounded bg-gradient-to-r from-slate-700 to-slate-800 transition-transform duration-500 ease-in-out group-hover:translate-y-0",
+                      "absolute inset-0 z-0 h-full translate-y-12 rounded bg-gradient-to-r from-blue-800 to-blue-900 transition-transform duration-500 ease-in-out group-hover:translate-y-0",
                       pathname.includes(asLink(link) as string)
                         ? "translate-y-0"
                         : "translate-y-12"
@@ -259,7 +258,7 @@ export default function NavBar({
 
               {index < settings.data.nav_item.length - 1 && (
                 <span
-                  className="hidden text-4xl font-thin leading-[0] text-slate-500 md:inline"
+                  className="hidden text-4xl font-thin leading-[0] text-blue-300 md:inline"
                   aria-hidden="true"
                 >
                   /
@@ -268,11 +267,12 @@ export default function NavBar({
             </React.Fragment>
           ))}
 
+          {/* CTA Button */}
           <li>
             <Button
               linkField={settings.data.cta_link}
               label={settings.data.cta_label}
-              className="ml-3 bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400"
+              className="ml-3 bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-white"
             />
           </li>
         </div>
@@ -351,7 +351,7 @@ function DesktopMenu({
         <Button
           linkField={settings.data.cta_link}
           label={settings.data.cta_label}
-          className="ml-3 bg-gradient-to-r from-slate-300 to-slate-400 hover:from-cyan-300 hover:to-blue-400"
+          className="ml-3 bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-white"
         />
       </li>
     </div>

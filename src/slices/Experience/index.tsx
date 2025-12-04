@@ -27,7 +27,7 @@ const Experience = ({ slice }: ExperienceProps): JSX.Element => {
             w-full 
             max-w-xl 
             mx-auto
-            mb-8
+            mb-10
             rounded-xl 
             bg-slate-800/50 
             p-5 
