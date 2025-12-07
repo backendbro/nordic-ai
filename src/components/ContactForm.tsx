@@ -336,16 +336,17 @@ export default function ContactForm() {
     const msg = (form.elements.namedItem("message") as HTMLTextAreaElement)
       .value;
 
-    if (!fname) errs.fname = "Required";
-    if (!lname) errs.lname = "Required";
+    if (!fname.trim()) errs.fname = "Required";
+    if (!lname.trim()) errs.lname = "Required";
     if (!emailRegex.test(email)) errs.email = "Invalid email";
-    if (msg.length < 5) errs.message = "Too short";
+    if (msg.trim().length < 5) errs.message = "Too short";
 
     return errs;
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setLoading(true);
     setStatus("idle");
 
     const form = formRef.current;
@@ -354,11 +355,11 @@ export default function ContactForm() {
     const validationErrors = validate(form);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
+      setLoading(false);
       return;
     }
 
     setErrors({});
-    setLoading(true);
 
     const data = {
       firstName: (form.elements.namedItem("fname") as HTMLInputElement).value,
@@ -379,8 +380,10 @@ export default function ContactForm() {
 
       setStatus("success");
       form.reset();
+      setTimeout(() => setStatus("idle"), 4000);
     } catch {
       setStatus("error");
+      setTimeout(() => setStatus("idle"), 4000);
     } finally {
       setLoading(false);
     }
@@ -468,32 +471,26 @@ export default function ContactForm() {
 
               <div className="pt-10 flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-10">
                 <button type="submit" className="submit-btn" disabled={loading}>
-                  {loading ? <span className="loader" /> : "Send Message"}
+                  {loading ? "Sending..." : "Send Message"}
                 </button>
 
                 <span className="text-sm text-slate-400">
                   I usually reply within 24 hours.
                 </span>
               </div>
-
-              {/* FORMAL STATUS MESSAGE */}
-              {status === "success" && (
-                <p className="status success">
-                  ✅ Your message has been sent successfully.
-                </p>
-              )}
-
-              {status === "error" && (
-                <p className="status error">
-                  ❌ Something went wrong. Please try again.
-                </p>
-              )}
             </form>
           </div>
         </div>
       </section>
 
-      {/* INLINE STYLES */}
+      {status === "success" && (
+        <div className="toast toast-success">✔ Message sent successfully</div>
+      )}
+
+      {status === "error" && (
+        <div className="toast toast-error">✕ Message failed. Try again.</div>
+      )}
+
       <style jsx>{`
         :root {
           --violet-1: #8b5cf6;
@@ -505,7 +502,6 @@ export default function ContactForm() {
           position: relative;
           padding-top: 1.5rem;
         }
-
         .field {
           width: 100%;
           background: transparent;
@@ -514,7 +510,6 @@ export default function ContactForm() {
           font-size: 1.05rem;
           padding: 0.85rem 0;
           outline: none;
-          caret-color: var(--violet-1);
         }
 
         .baseline {
@@ -553,11 +548,11 @@ export default function ContactForm() {
         }
 
         .error {
-          color: #f87171;
-          font-size: 0.7rem;
           position: absolute;
           bottom: -1.3rem;
           right: 0;
+          font-size: 0.7rem;
+          color: #f87171;
         }
 
         .email-pill {
@@ -565,32 +560,34 @@ export default function ContactForm() {
           border: 1px solid rgba(167, 139, 250, 0.45);
           font-size: 0.7rem;
           letter-spacing: 0.35em;
-          text-transform: uppercase;
           color: #c7b6ff;
           display: inline-block;
-          cursor: pointer;
         }
 
-        /* REFINED BUSINESS HOVER */
         .submit-btn {
           padding: 1rem 3rem;
           border: 1px solid rgba(148, 163, 184, 0.6);
+          background: transparent;
+          color: #f1f5f9;
           font-size: 0.7rem;
           letter-spacing: 0.45em;
           text-transform: uppercase;
           cursor: pointer;
-          background: transparent;
-          color: white;
           transition:
             background 0.25s ease,
             box-shadow 0.25s ease,
             transform 0.2s ease;
         }
 
-        .submit-btn:hover {
-          background: rgba(255, 255, 255, 0.08);
-          box-shadow: 0 4px 18px rgba(255, 255, 255, 0.15);
-          transform: translateY(-1px);
+        /* ✅ MORE PRONOUNCED BUT CLASSY HOVER */
+        .submit-btn:hover:not(:disabled) {
+          background: linear-gradient(
+            90deg,
+            rgba(139, 92, 246, 0.14),
+            rgba(94, 234, 212, 0.14)
+          );
+          box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+          transform: translateY(-2px);
         }
 
         .submit-btn:disabled {
@@ -598,40 +595,33 @@ export default function ContactForm() {
           cursor: not-allowed;
         }
 
-        .loader {
-          width: 18px;
-          height: 18px;
-          border: 2px solid rgba(255, 255, 255, 0.3);
-          border-top-color: white;
-          border-radius: 50%;
-          animation: spin 0.7s linear infinite;
-          display: inline-block;
+        .toast {
+          position: fixed;
+          bottom: 32px;
+          right: 32px;
+          z-index: 9999;
+          padding: 0.9rem 1.4rem;
+          font-size: 0.85rem;
+          letter-spacing: 0.04em;
+          background: #020617;
+          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+          animation: slideIn 0.35s ease;
         }
 
-        .status {
-          font-size: 0.8rem;
-          margin-top: 0.5rem;
-          animation: fadeIn 0.3s ease;
+        .toast-success {
+          color: #5eead4;
+          border: 1px solid rgba(94, 234, 212, 0.25);
         }
 
-        .status.success {
-          color: #4ade80;
-        }
-
-        .status.error {
+        .toast-error {
           color: #f87171;
+          border: 1px solid rgba(248, 113, 113, 0.25);
         }
 
-        @keyframes spin {
-          to {
-            transform: rotate(360deg);
-          }
-        }
-
-        @keyframes fadeIn {
+        @keyframes slideIn {
           from {
             opacity: 0;
-            transform: translateY(3px);
+            transform: translateY(12px);
           }
           to {
             opacity: 1;
