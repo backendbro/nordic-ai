@@ -354,7 +354,6 @@ export default function ContactForm() {
     const validationErrors = validate(form);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      alert("Please fix the highlighted fields.");
       return;
     }
 
@@ -379,11 +378,9 @@ export default function ContactForm() {
       if (!res.ok) throw new Error("Failed");
 
       setStatus("success");
-      alert("✅ Message sent successfully!");
       form.reset();
     } catch {
       setStatus("error");
-      alert("❌ Something went wrong. Try again.");
     } finally {
       setLoading(false);
     }
@@ -478,6 +475,19 @@ export default function ContactForm() {
                   I usually reply within 24 hours.
                 </span>
               </div>
+
+              {/* FORMAL STATUS MESSAGE */}
+              {status === "success" && (
+                <p className="status success">
+                  ✅ Your message has been sent successfully.
+                </p>
+              )}
+
+              {status === "error" && (
+                <p className="status error">
+                  ❌ Something went wrong. Please try again.
+                </p>
+              )}
             </form>
           </div>
         </div>
@@ -561,6 +571,7 @@ export default function ContactForm() {
           cursor: pointer;
         }
 
+        /* REFINED BUSINESS HOVER */
         .submit-btn {
           padding: 1rem 3rem;
           border: 1px solid rgba(148, 163, 184, 0.6);
@@ -568,18 +579,23 @@ export default function ContactForm() {
           letter-spacing: 0.45em;
           text-transform: uppercase;
           cursor: pointer;
-          position: relative;
-          overflow: hidden;
           background: transparent;
           color: white;
           transition:
-            background 0.3s ease,
-            box-shadow 0.3s ease;
+            background 0.25s ease,
+            box-shadow 0.25s ease,
+            transform 0.2s ease;
         }
 
         .submit-btn:hover {
-          background: rgba(255, 255, 255, 0.05);
-          box-shadow: 0 0 12px rgba(255, 255, 255, 0.08);
+          background: rgba(255, 255, 255, 0.08);
+          box-shadow: 0 4px 18px rgba(255, 255, 255, 0.15);
+          transform: translateY(-1px);
+        }
+
+        .submit-btn:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
         }
 
         .loader {
@@ -592,9 +608,34 @@ export default function ContactForm() {
           display: inline-block;
         }
 
+        .status {
+          font-size: 0.8rem;
+          margin-top: 0.5rem;
+          animation: fadeIn 0.3s ease;
+        }
+
+        .status.success {
+          color: #4ade80;
+        }
+
+        .status.error {
+          color: #f87171;
+        }
+
         @keyframes spin {
           to {
             transform: rotate(360deg);
+          }
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(3px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
           }
         }
       `}</style>
