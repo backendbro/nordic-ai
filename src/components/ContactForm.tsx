@@ -70,8 +70,8 @@ export default function ContactForm() {
               talk ideas — this is the fastest way to reach me.
             </p>
 
-            <a href="mailto:info@nordicai.io" className="email-pill">
-              INFO@NORDICAI.IO
+            <a href="mailto:hello@yourdomain.com" className="email-pill">
+              HELLO@YOURDOMAIN.COM
             </a>
           </div>
 
@@ -146,16 +146,15 @@ export default function ContactForm() {
               </div>
 
               {status === "success" && (
-                <div className="success-toast">
-                  <span className="check">✓</span>
-                  <span>Your message has been sent successfully.</span>
-                </div>
+                <p className="text-green-400 text-sm">
+                  Message sent successfully.
+                </p>
               )}
 
               {status === "error" && (
-                <div className="error-toast">
+                <p className="text-red-400 text-sm">
                   Something went wrong. Try again.
-                </div>
+                </p>
               )}
             </form>
           </div>
@@ -232,80 +231,12 @@ export default function ContactForm() {
           display: inline-block;
         }
 
-        /* ✅ ONLY FUNCTIONAL BUTTON ENHANCEMENTS (NO REDESIGN) */
         .submit-btn {
           padding: 1rem 3rem;
           border: 1px solid rgba(148, 163, 184, 0.6);
           font-size: 0.7rem;
           letter-spacing: 0.45em;
           text-transform: uppercase;
-          background: transparent;
-          color: #f1f5f9;
-          cursor: pointer;
-          transition:
-            background 0.35s ease,
-            box-shadow 0.35s ease,
-            transform 0.25s ease,
-            color 0.35s ease;
-        }
-
-        .submit-btn:hover:not(:disabled) {
-          background: linear-gradient(90deg, var(--violet-1), var(--aqua-1));
-          color: #020617;
-          box-shadow: 0 0 25px rgba(139, 92, 246, 0.45);
-          transform: translateY(-1px);
-        }
-
-        .submit-btn:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
-
-        /* ✅ SUCCESS & ERROR NOTICES */
-        .success-toast {
-          margin-top: 1.5rem;
-          display: inline-flex;
-          align-items: center;
-          gap: 0.6rem;
-          font-size: 0.75rem;
-          letter-spacing: 0.08em;
-          padding: 0.6rem 1rem;
-          border-radius: 999px;
-          background: linear-gradient(
-            90deg,
-            rgba(94, 234, 212, 0.15),
-            rgba(139, 92, 246, 0.15)
-          );
-          color: #5eead4;
-          border: 1px solid rgba(94, 234, 212, 0.35);
-          animation: fadeSlideUp 0.4s ease forwards;
-        }
-
-        .success-toast .check {
-          font-size: 0.85rem;
-          color: #5eead4;
-        }
-
-        .error-toast {
-          margin-top: 1.5rem;
-          font-size: 0.75rem;
-          letter-spacing: 0.08em;
-          padding: 0.6rem 1rem;
-          border-radius: 999px;
-          color: #f87171;
-          border: 1px solid rgba(248, 113, 113, 0.4);
-          animation: fadeSlideUp 0.4s ease forwards;
-        }
-
-        @keyframes fadeSlideUp {
-          from {
-            opacity: 0;
-            transform: translateY(6px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
         }
       `}</style>
     </>
