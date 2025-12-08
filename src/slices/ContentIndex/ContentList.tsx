@@ -156,19 +156,27 @@ export default function ContentList({
             >
               <div className="flex flex-col">
                 <span className="text-3xl font-bold">{post.data.title}</span>
-                <div className="flex gap-3 text-yellow-400 flex-wrap">
-                  {post.tags.slice(0, 3).map((tag, index) => (
+                <div className="flex flex-wrap gap-3 mt-2">
+                  {/* Small screens: show first 3 tags + indicator if more */}
+                  {post.tags.slice(0, 3).map((tag, idx) => (
                     <span
-                      key={index}
-                      className="text-lg font-bold whitespace-nowrap md:hidden"
+                      key={idx}
+                      className="md:hidden bg-yellow-400/10 text-yellow-400 font-semibold px-4 py-1 rounded-full border border-yellow-400/30 text-sm"
                     >
                       {tag}
                     </span>
                   ))}
-                  {post.tags.map((tag, index) => (
+                  {post.tags.length > 3 && (
+                    <span className="md:hidden bg-yellow-400/10 text-yellow-400 font-semibold px-4 py-1 rounded-full border border-yellow-400/30 text-sm">
+                      +{post.tags.length - 3} more
+                    </span>
+                  )}
+
+                  {/* Medium and larger screens: show all tags */}
+                  {post.tags.map((tag, idx) => (
                     <span
-                      key={index}
-                      className="text-lg font-bold whitespace-nowrap hidden md:inline"
+                      key={idx}
+                      className="hidden md:inline bg-yellow-400/10 text-yellow-400 font-semibold px-4 py-1 rounded-full border border-yellow-400/30 text-sm"
                     >
                       {tag}
                     </span>
