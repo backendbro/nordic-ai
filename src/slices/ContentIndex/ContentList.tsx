@@ -156,12 +156,19 @@ export default function ContentList({
             >
               <div className="flex flex-col">
                 <span className="text-3xl font-bold">{post.data.title}</span>
-                <div className="flex gap-3 text-yellow-400">
-                  {post.tags.map((tag, index) => (
-                    <span key={index} className="text-lg font-bold">
-                      {tag}
-                    </span>
-                  ))}
+                <div className="flex gap-3 text-yellow-400 flex-wrap">
+                  {post.tags.map((tag, index) => {
+                    // Only show first 3 tags on small screens
+                    if (index >= 3 && window.innerWidth < 768) return null;
+                    return (
+                      <span
+                        key={index}
+                        className="text-lg font-bold whitespace-nowrap"
+                      >
+                        {tag}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
               <span className="ml-auto flex items-center gap-2 text-xl font-medium md:ml-0">
