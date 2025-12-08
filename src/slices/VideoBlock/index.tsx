@@ -1,45 +1,24 @@
 import { FC } from "react";
-import { SliceComponentProps } from "@prismicio/react";
 import { Content } from "@prismicio/client";
+import { SliceComponentProps } from "@prismicio/react";
 
-/**
- * Props for "VideoBlock" Slices.
- * Ensures TypeScript knows that slice.primary.video.url exists.
- */
-export type VideoBlockProps = SliceComponentProps<
-  Content.VideoBlockSlice & {
-    primary: {
-      video: {
-        url: string;
-      };
-    };
-  }
->;
+export type VideoBlockProps = SliceComponentProps<Content.VideoBlockSlice>;
 
-/**
- * Component for "VideoBlock" Slices.
- */
 const VideoBlock: FC<VideoBlockProps> = ({ slice }) => {
-  // safely extract video URL
-  const videoUrl = slice.primary?.video?.url;
+  const video = slice.primary.video;
 
-  if (!videoUrl) return null; // don't render if URL is missing
+  if (!video || !("html" in video) || !video.html) {
+    return null;
+  }
 
   return (
-    <section
-      data-slice-type={slice.slice_type}
-      data-slice-variation={slice.variation}
-      className="relative w-full h-0 my-8"
-      style={{ paddingBottom: "56.25%" }} // 16:9 aspect ratio
-    >
-      <iframe
-        src={videoUrl}
-        title="Video"
-        frameBorder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-        className="absolute top-0 left-0 w-full h-full rounded-md shadow-md"
-      />
+    <section className="my-24">
+      <div className="relative mx-auto max-w-4xl overflow-hidden rounded-3xl border border-slate-700/50 shadow-2xl">
+        <div
+          className="relative aspect-video w-full [&_iframe]:absolute [&_iframe]:inset-0 [&_iframe]:h-full [&_iframe]:w-full"
+          dangerouslySetInnerHTML={{ __html: video.html }}
+        />
+      </div>
     </section>
   );
 };

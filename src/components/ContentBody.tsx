@@ -5,17 +5,6 @@ import { components } from "@/slices";
 import Bounded from "@/components/Bounded";
 import Heading from "@/components/Heading";
 
-interface ReadingTimeProps {
-  minutes: number;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const ReadingTime: React.FC<ReadingTimeProps> = ({ minutes }) => (
-  <span className="text-gray-500 text-sm blog-reading-time">
-    {minutes} min read
-  </span>
-);
-
 export default function ContentBody({
   page,
 }: {
@@ -37,29 +26,55 @@ export default function ContentBody({
   }
 
   const formattedDate = formatDate(page.data.date);
-  console.log(page.data);
 
   return (
     <Bounded as="article">
-      <div className="rounded-2xl border-2 border-slate-800 bg-slate-900 px-4 py-10 md:px-8 md:py-20">
-        <Heading as="h1">{page.data.title}</Heading>
-        <div className="flex gap-4 text-yellow-400">
-          {page.tags.map((tag, index) => (
-            <span key={index} className="text-xl font-bold">
-              {tag}
-            </span>
-          ))}
-        </div>
-        <p className="mt-8 border-b border-slate-600 text-xl font-medium text-slate-300">
-          {formattedDate}
-        </p>
+      <article className="relative px-4 py-12 md:px-10 md:py-20">
+        {/* ================= HEADER ================= */}
+        <header className="mx-auto max-w-4xl text-center">
+          <span className="mb-4 inline-block rounded-full border border-yellow-400/30 bg-yellow-400/10 px-4 py-1 text-xs font-bold uppercase tracking-widest text-yellow-300">
+            Case Study / Insight
+          </span>
 
-        <div className="body-wrapper">
-          <div className="markdown-style">
+          <Heading
+            as="h1"
+            className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight"
+          >
+            {page.data.title}
+          </Heading>
+
+          {/* ========== TAGS (PILLS UNTOUCHED) ========== */}
+          {page.tags.length > 0 && (
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              {page.tags.map((tag, index) => (
+                <span
+                  key={index}
+                  className="rounded-full border border-slate-600 bg-slate-800/50 px-4 py-1 text-sm font-semibold text-slate-200"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* ========== DATE (PLAIN TEXT, NO PILL) ========== */}
+          {formattedDate && (
+            <p className="mt-6 text-sm font-medium uppercase tracking-widest text-slate-400">
+              {formattedDate}
+            </p>
+          )}
+
+          {/* Divider */}
+          <div className="mx-auto mt-12 h-px w-40 bg-gradient-to-r from-transparent via-yellow-400 to-transparent opacity-70" />
+        </header>
+
+        {/* ================= CONTENT (NO JUMBOTRON, NO CARD) ================= */}
+        <section className="mt-20">
+          <div className="mx-auto max-w-4xl">
             <SliceZone slices={page.data.slices} components={components} />
           </div>
-        </div>
-      </div>
+        </section>
+      </article>
     </Bounded>
   );
 }
