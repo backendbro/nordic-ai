@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { Content, DateField, isFilled } from "@prismicio/client";
 import { SliceZone } from "@prismicio/react";
 import { components } from "@/slices";
@@ -23,28 +22,16 @@ export default function ContentBody({
 
   return (
     <article className="relative">
-      {/* FULL-WIDTH HERO HEADER */}
-      <header className="relative w-full bg-gradient-to-b from-slate-900/95 via-slate-900/80 to-slate-900/80">
-        {/* Optional hero image overlay */}
-        {page.data.hover_image?.url && (
-          // eslint-disable-next-line react/jsx-no-comment-textnodes
-          <div className="absolute inset-0">
-            <img
-              src={page.data.hover_image.url}
-              alt={page?.data?.title || ""}
-              className="w-full h-full object-cover brightness-75"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60" />
-          </div>
-        )}
-
-        {/* Hero content */}
-        <div className="relative z-10 max-w-5xl mx-auto text-center px-6 py-28 md:px-12 md:py-40">
+      {/* CENTERED HEADER HERO */}
+      <div className="bg-slate-900/90 backdrop-blur-md border-b border-slate-700/50 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)]">
+        <div className="max-w-4xl mx-auto text-center px-6 py-20 md:px-12 md:py-32">
+          {/* TITLE */}
           <h1 className="text-5xl md:text-6xl font-semibold text-slate-100 leading-tight mb-6">
             {page.data.title}
           </h1>
 
-          <div className="flex flex-col items-center gap-4 text-base text-slate-300">
+          {/* META: DATE & TAGS */}
+          <div className="flex flex-col items-center gap-4 text-base text-slate-400">
             <time className="text-lg">{formattedDate}</time>
 
             <div className="flex flex-wrap justify-center gap-3">
@@ -59,9 +46,10 @@ export default function ContentBody({
             </div>
           </div>
 
-          <div className="mt-12 h-px w-28 bg-gradient-to-r from-yellow-400/50 via-transparent to-yellow-400/50 mx-auto rounded-full" />
+          {/* DIVIDER */}
+          <div className="mt-12 h-px w-24 bg-gradient-to-r from-yellow-400/50 via-transparent to-yellow-400/50 mx-auto" />
         </div>
-      </header>
+      </div>
 
       {/* PROJECT CONTENT */}
       <Bounded as="section">

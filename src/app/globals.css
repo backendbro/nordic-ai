@@ -71,7 +71,7 @@
   .project-content p {
     margin-top: 1.75rem;
     margin-bottom: 1.75rem;
-    color: rgb(226 232 240);
+    color: rgb(226 232 240); /* slate-200 */
     font-weight: 450;
   }
 
