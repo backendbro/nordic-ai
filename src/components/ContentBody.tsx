@@ -21,20 +21,31 @@ export default function ContentBody({
   const formattedDate = formatDate(page.data.date);
 
   return (
-    <Bounded as="article">
-      {/* WIDE, CONFIDENT CARD */}
-      <div className="relative mx-auto max-w-6xl rounded-3xl border border-slate-700/50 bg-slate-900/90 backdrop-blur-xl shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]">
-        <div className="px-8 py-16 md:px-16 md:py-24">
-          {/* TITLE */}
-          <h1 className="max-w-5xl text-4xl font-semibold leading-tight tracking-tight text-slate-100 md:text-5xl">
+    <article className="relative">
+      {/* FULL-WIDTH HERO HEADER */}
+      <header className="relative w-full bg-gradient-to-b from-slate-900/95 via-slate-900/80 to-slate-900/80">
+        {/* Optional hero image overlay */}
+        {page.data.hero_image?.url && (
+          <div className="absolute inset-0">
+            <img
+              src={page.data.hero_image.url}
+              alt={page.data.title}
+              className="w-full h-full object-cover brightness-75"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60" />
+          </div>
+        )}
+
+        {/* Hero content */}
+        <div className="relative z-10 max-w-5xl mx-auto text-center px-6 py-28 md:px-12 md:py-40">
+          <h1 className="text-5xl md:text-6xl font-semibold text-slate-100 leading-tight mb-6">
             {page.data.title}
           </h1>
 
-          {/* META (STACKED, CALM) */}
-          <div className="mt-6 flex flex-col gap-4">
-            <time className="text-lg text-slate-400">{formattedDate}</time>
+          <div className="flex flex-col items-center gap-4 text-base text-slate-300">
+            <time className="text-lg">{formattedDate}</time>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap justify-center gap-3">
               {page.tags.map((tag, index) => (
                 <span
                   key={index}
@@ -46,15 +57,18 @@ export default function ContentBody({
             </div>
           </div>
 
-          {/* DIVIDER */}
-          <div className="my-16 h-px w-full bg-gradient-to-r from-transparent via-slate-600 to-transparent" />
+          <div className="mt-12 h-px w-28 bg-gradient-to-r from-yellow-400/50 via-transparent to-yellow-400/50 mx-auto rounded-full" />
+        </div>
+      </header>
 
-          {/* CONTENT BODY */}
+      {/* PROJECT CONTENT */}
+      <Bounded as="section">
+        <div className="max-w-5xl mx-auto px-6 py-16 md:px-12 md:py-24">
           <div className="project-content prose prose-invert max-w-none">
             <SliceZone slices={page.data.slices} components={components} />
           </div>
         </div>
-      </div>
-    </Bounded>
+      </Bounded>
+    </article>
   );
 }
