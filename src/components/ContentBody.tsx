@@ -23,39 +23,52 @@ export default function ContentBody({
 }) {
   function formatDate(date: DateField) {
     if (isFilled.date(date)) {
-      const dateOptions: Intl.DateTimeFormatOptions = {
+      return new Intl.DateTimeFormat("en-US", {
         weekday: "long",
         year: "numeric",
         month: "long",
         day: "numeric",
-      };
-
-      return new Intl.DateTimeFormat("en-US", dateOptions).format(
-        new Date(date)
-      );
+      }).format(new Date(date));
     }
   }
 
   const formattedDate = formatDate(page.data.date);
-  console.log(page.data);
 
   return (
     <Bounded as="article">
-      <div className="rounded-2xl border-2 border-slate-800 bg-slate-900 px-4 py-10 md:px-8 md:py-20">
-        <Heading as="h1">{page.data.title}</Heading>
-        <div className="flex gap-4 text-yellow-400">
-          {page.tags.map((tag, index) => (
-            <span key={index} className="text-xl font-bold">
-              {tag}
-            </span>
-          ))}
-        </div>
-        <p className="mt-8 border-b border-slate-600 text-xl font-medium text-slate-300">
-          {formattedDate}
-        </p>
+      {/* JUMBOTRON CARD */}
+      <div className="relative mx-auto max-w-4xl rounded-3xl border border-slate-700/60 bg-slate-900/80 backdrop-blur-xl shadow-[0_0_80px_-20px_rgba(0,0,0,0.8)]">
+        <div className="px-6 py-12 md:px-12 md:py-20">
+          {/* HEADER */}
+          <header className="space-y-6">
+            <Heading as="h1" size="xl">
+              {page.data.title}
+            </Heading>
 
-        <div className="body-wrapper">
-          <div className="markdown-style">
+            {/* META */}
+            <div className="flex flex-wrap items-center gap-4 text-sm text-slate-400">
+              <time>{formattedDate}</time>
+
+              <span className="h-1 w-1 rounded-full bg-slate-500" />
+
+              <div className="flex gap-2">
+                {page.tags.map((tag, index) => (
+                  <span
+                    key={index}
+                    className="rounded-full border border-yellow-400/30 bg-yellow-400/10 px-3 py-1 text-xs font-medium text-yellow-300"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </header>
+
+          {/* DIVIDER */}
+          <div className="my-12 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+
+          {/* BODY */}
+          <div className="prose prose-invert prose-lg max-w-none prose-headings:scroll-mt-32 prose-a:text-yellow-400 hover:prose-a:text-yellow-300">
             <SliceZone slices={page.data.slices} components={components} />
           </div>
         </div>

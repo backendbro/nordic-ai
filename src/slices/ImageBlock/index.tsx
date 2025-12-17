@@ -7,13 +7,15 @@ export type ImageBlockProps = SliceComponentProps<Content.ImageBlockSlice>;
 const ImageBlock: FC<ImageBlockProps> = ({ slice }) => {
   return (
     <section className="my-24">
-      <figure className="relative mx-auto max-w-4xl overflow-hidden rounded-3xl border border-[var(--consulting-border)] shadow-2xl">
+      <figure className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-slate-700/60 bg-slate-800 shadow-2xl">
         <PrismicImage
           field={slice.primary.image}
-          className="w-full object-cover transition-transform duration-700 hover:scale-[1.01]"
-          imgixParams={{ w: 1600 }}
+          className="w-full object-cover transition-transform duration-700 hover:scale-[1.015]"
+          imgixParams={{ w: 1800 }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+
+        {/* Subtle Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
       </figure>
     </section>
   );
