@@ -1,18 +1,106 @@
-/* Pull in Tailwind */
+/* Remove old markdown styles and replace with optimized ones */
 @import "tailwindcss";
 
-/* Design tokens */
 @theme {
   --font-urbanist: "Urbanist", "Jost", sans-serif;
+  --shadow-card: 0 20px 40px -20px rgba(0, 0, 0, 0.5);
+  --shadow-hover: 0 30px 60px -30px rgba(0, 0, 0, 0.6);
 }
 
-/* Base layer */
 @layer base {
   body {
-    font-family: var(--font-urbanist);
+    font-family: var(--font-urbanist) !important;
+    background-color: #0f172a; /* Fallback for gradient */
   }
 
-  /* Background gradient (KEEP — this is your site identity) */
+  /* Project-specific styles */
+  .project-container {
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 0 1.5rem;
+  }
+
+  /* Enhanced project typography */
+  .project-content {
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: #e2e8f0;
+  }
+
+  .project-content h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #f8fafc;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(100, 150, 120, 0.3);
+  }
+
+  .project-content h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .project-content p {
+    margin-bottom: 1.75rem;
+    color: #cbd5e1;
+  }
+
+  .project-content a {
+    color: #7c3aed;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(124, 58, 237, 0.3);
+    transition: all 0.2s ease;
+  }
+
+  .project-content a:hover {
+    color: #8b5cf6;
+    border-bottom-color: #8b5cf6;
+  }
+
+  .project-content ul,
+  .project-content ol {
+    margin-bottom: 1.75rem;
+    padding-left: 1.5rem;
+  }
+
+  .project-content li {
+    margin-bottom: 0.5rem;
+    color: #cbd5e1;
+  }
+
+  .project-content blockquote {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    border-left: 4px solid #7c3aed;
+    background: rgba(124, 58, 237, 0.05);
+    border-radius: 0 0.5rem 0.5rem 0;
+    font-style: italic;
+    color: #e2e8f0;
+  }
+
+  .project-content code {
+    background: rgba(30, 41, 59, 0.5);
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-family: "Menlo", "Monaco", "Courier New", monospace;
+    font-size: 0.9em;
+    color: #f1f5f9;
+  }
+
+  .project-content pre {
+    background: #1e293b;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    overflow-x: auto;
+    margin: 2rem 0;
+    border: 1px solid rgba(71, 85, 105, 0.3);
+  }
+
   .background-gradient {
     background:
       radial-gradient(
@@ -29,97 +117,9 @@
         circle at center,
         rgba(15, 23, 42, 0) 50%,
         rgba(15, 23, 42, 0.6) 100%
-      );
-    background-blend-mode: screen, overlay, multiply;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
-
-  /* ---- Typography Enhancements (ONLY what Tailwind Prose doesn't handle well) ---- */
-
-  .prose {
-    line-height: 1.75;
-  }
-
-  .prose p {
-    color: rgb(203 213 225); /* slate-300 */
-  }
-
-  .prose h2,
-  .prose h3,
-  .prose h4 {
-    letter-spacing: -0.02em;
-  }
-
-  .prose pre {
-    background: rgb(30 41 59); /* slate-800 */
-  }
-
-  .prose code {
-    background: rgb(51 65 85); /* slate-700 */
-    border-radius: 0.375rem;
-    padding: 0.2rem 0.4rem;
-  }
-}
-
-@layer base {
-  .project-content {
-    font-size: 1.18rem; /* ~19px */
-    line-height: 1.85;
-  }
-
-  .project-content p {
-    margin-top: 1.75rem;
-    margin-bottom: 1.75rem;
-    color: rgb(226 232 240); /* slate-200 */
-    font-weight: 450;
-  }
-
-  .project-content h2 {
-    margin-top: 4rem;
-    margin-bottom: 1.5rem;
-    font-size: 2.1rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-
-  .project-content h3 {
-    margin-top: 3rem;
-    margin-bottom: 1.25rem;
-    font-size: 1.6rem;
-    font-weight: 600;
-  }
-
-  .project-content ul,
-  .project-content ol {
-    margin: 2rem 0;
-    padding-left: 1.75rem;
-  }
-
-  .project-content li {
-    margin-bottom: 0.75rem;
-  }
-
-  .project-content blockquote {
-    margin: 3.5rem 0;
-    padding-left: 1.5rem;
-    border-left: 4px solid rgb(100 116 139);
-    color: rgb(203 213 225);
-    font-style: italic;
-  }
-
-  .project-content pre {
-    margin: 3rem 0;
-    padding: 1.75rem;
-    background: rgb(30 41 59);
-    border-radius: 0.75rem;
-    overflow-x: auto;
-  }
-
-  .project-content code {
-    background: rgb(51 65 85);
-    padding: 0.25rem 0.4rem;
-    border-radius: 0.375rem;
-    font-size: 0.95em;
+      ),
+      linear-gradient(to bottom, #0f172a 0%, #1e293b 100%);
+    background-blend-mode: screen, overlay, multiply, normal;
+    min-height: 100vh;
   }
 }
