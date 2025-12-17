@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Content, DateField, isFilled } from "@prismicio/client";
 import { SliceZone } from "@prismicio/react";
 import { components } from "@/slices";
@@ -25,11 +26,12 @@ export default function ContentBody({
       {/* FULL-WIDTH HERO HEADER */}
       <header className="relative w-full bg-gradient-to-b from-slate-900/95 via-slate-900/80 to-slate-900/80">
         {/* Optional hero image overlay */}
-        {page.data.hero_image?.url && (
+        {page.data.hover_image?.url && (
+          // eslint-disable-next-line react/jsx-no-comment-textnodes
           <div className="absolute inset-0">
             <img
-              src={page.data.hero_image.url}
-              alt={page.data.title}
+              src={page.data.hover_image.url}
+              alt={page?.data?.title || ""}
               className="w-full h-full object-cover brightness-75"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60" />
