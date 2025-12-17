@@ -22,15 +22,13 @@ export default function ContentBody({
 
   return (
     <article className="relative">
-      {/* CENTERED HEADER HERO */}
+      {/* HEADER HERO */}
       <div className="bg-slate-900/90 backdrop-blur-md border-b border-slate-700/50 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)]">
         <div className="max-w-4xl mx-auto text-center px-6 py-20 md:px-12 md:py-32">
-          {/* TITLE */}
           <h1 className="text-5xl md:text-6xl font-semibold text-slate-100 leading-tight mb-6">
             {page.data.title}
           </h1>
 
-          {/* META: DATE & TAGS */}
           <div className="flex flex-col items-center gap-4 text-base text-slate-400">
             <time className="text-lg">{formattedDate}</time>
 
@@ -46,16 +44,17 @@ export default function ContentBody({
             </div>
           </div>
 
-          {/* DIVIDER */}
           <div className="mt-12 h-px w-24 bg-gradient-to-r from-yellow-400/50 via-transparent to-yellow-400/50 mx-auto" />
         </div>
       </div>
 
-      {/* PROJECT CONTENT */}
+      {/* PROJECT CONTENT: JUMBOTRON CARD */}
       <Bounded as="section">
-        <div className="max-w-5xl mx-auto px-6 py-16 md:px-12 md:py-24">
-          <div className="project-content prose prose-invert max-w-none">
-            <SliceZone slices={page.data.slices} components={components} />
+        <div className="max-w-5xl mx-auto px-6 md:px-12 -mt-16 relative z-10">
+          <div className="bg-slate-800/90 backdrop-blur-lg rounded-3xl border border-slate-700/60 shadow-2xl p-8 md:p-16 space-y-12">
+            <div className="project-content prose prose-invert max-w-none">
+              <SliceZone slices={page.data.slices} components={components} />
+            </div>
           </div>
         </div>
       </Bounded>
