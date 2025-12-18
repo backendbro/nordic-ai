@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Content, DateField, isFilled } from "@prismicio/client";
 import { SliceZone } from "@prismicio/react";
 import { components } from "@/slices";
@@ -37,19 +37,13 @@ export default function ContentBody({
     }
   }
 
-  // More accurate reading time calculation
   function calculateReadingTime() {
     let totalWords = 0;
 
-    // Count words in title
-    if (page.data.title) {
-      totalWords += page.data.title.split(/\s+/).length;
-    }
+    if (page.data.title) totalWords += page.data.title.split(/\s+/).length;
 
-    // Estimate words from slices (more accurate)
     if (page.data.slices) {
       page.data.slices.forEach((slice: any) => {
-        // Text slices
         if (
           slice.slice_type === "text_block" ||
           slice.slice_type === "rich_text"
@@ -60,31 +54,21 @@ export default function ContentBody({
               .join(" ");
             totalWords += textContent
               .split(/\s+/)
-              .filter((word: string | any[]) => word.length > 0).length;
+              .filter((word: string) => word.length > 0).length;
           }
         }
-
-        // Code blocks (read slower)
-        if (slice.slice_type === "code_block") {
-          totalWords += 50; // Estimate for code blocks
-        }
-
-        // Image/video blocks (quick scan time)
+        if (slice.slice_type === "code_block") totalWords += 50;
         if (
           slice.slice_type === "image_block" ||
           slice.slice_type === "video_block"
-        ) {
-          totalWords += 20; // Time to view media
-        }
+        )
+          totalWords += 20;
       });
     }
 
-    // Average reading speed: 200-250 words per minute
-    // Using 220 WPM for better accuracy
     const readingSpeed = 220;
     const minutes = Math.ceil(totalWords / readingSpeed);
-
-    return Math.max(1, minutes); // Minimum 1 minute
+    return Math.max(1, minutes);
   }
 
   const formattedDate = formatDate(page.data.date);
@@ -102,16 +86,21 @@ export default function ContentBody({
 
       <article className="relative">
         <Bounded as="section">
-          {/* ENHANCED CARD CONTAINER */}
-          <div className="max-w-4xl mx-auto px-8 md:px-16 py-16 md:py-24 bg-gradient-to-br from-slate-900/95 via-slate-800/90 to-slate-900/95 border border-slate-700/50 rounded-3xl shadow-2xl backdrop-blur-lg space-y-12 relative overflow-hidden">
-            {/* Decorative elements */}
+          {/* Enhanced Card Container */}
+          <div
+            className="mx-auto px-8 md:px-16 py-16 md:py-24 
+                          bg-gradient-to-br from-slate-900/95 via-slate-800/90 to-slate-900/95 
+                          border border-slate-700/50 rounded-3xl shadow-2xl backdrop-blur-lg space-y-12 relative overflow-hidden
+                          max-w-5xl lg:max-w-6xl xl:max-w-7xl"
+          >
+            {/* Decorative Elements */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-yellow-400/10 to-transparent rounded-full blur-2xl" />
             <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-400/10 to-transparent rounded-full blur-xl" />
 
-            {/* ENHANCED HEADER */}
+            {/* Header */}
             <div className="text-center relative z-10">
-              <div className="inline-flex items-center gap-3 text-sm text-slate-400 mb-6">
-                <span className="flex items-center gap-2">
+              <div className="inline-flex items-center gap-3 text-sm text-slate-200 font-semibold mb-6">
+                <span className="flex items-center gap-2 font-semibold text-slate-100">
                   <svg
                     className="w-4 h-4"
                     fill="currentColor"
@@ -126,7 +115,9 @@ export default function ContentBody({
                   {estimatedReadTime} min read
                 </span>
                 <span>•</span>
-                <time>{formattedDate}</time>
+                <time className="font-semibold text-slate-100">
+                  {formattedDate}
+                </time>
               </div>
 
               <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-slate-100 via-slate-200 to-slate-300 bg-clip-text text-transparent leading-tight mb-8">
@@ -146,19 +137,19 @@ export default function ContentBody({
               </div>
             </div>
 
-            {/* Separator with flair */}
+            {/* Separator */}
             <div className="flex items-center justify-center space-x-4">
               <div className="h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent flex-1" />
               <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
               <div className="h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent flex-1" />
             </div>
 
-            {/* ENHANCED CONTENT BODY */}
+            {/* Content Body */}
             <div className="project-content prose prose-invert max-w-none space-y-16 relative z-10">
               <SliceZone slices={page.data.slices} components={components} />
             </div>
 
-            {/* Call-to-action footer */}
+            {/* Footer CTA */}
             <div className="pt-12 border-t border-slate-700/50 text-center">
               <div className="inline-flex items-center gap-3 text-slate-400 text-sm">
                 <span>Enjoyed this project?</span>
