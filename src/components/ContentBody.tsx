@@ -21,43 +21,51 @@ export default function ContentBody({
   const formattedDate = formatDate(page.data.date);
 
   return (
-    <article className="relative">
-      {/* HEADER HERO */}
-      <div className="bg-slate-900/90 backdrop-blur-md border-b border-slate-700/50 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)]">
-        <div className="max-w-4xl mx-auto text-center px-6 py-20 md:px-12 md:py-32">
-          <h1 className="text-5xl md:text-6xl font-semibold text-slate-100 leading-tight mb-6">
-            {page.data.title}
-          </h1>
+    <article className="min-h-screen background-gradient">
+      {/* Main content container with proper contrast */}
+      <div className="pt-8 pb-24">
+        {/* Jumbotron header card */}
+        <div className="max-w-4xl mx-auto px-6 mb-12">
+          <div className="bg-gradient-to-br from-slate-900/80 to-slate-800/80 backdrop-blur-sm border border-slate-700/50 rounded-3xl p-8 md:p-12 shadow-2xl">
+            {/* Title */}
+            <h1 className="text-4xl md:text-5xl font-semibold text-slate-100 leading-tight mb-6">
+              {page.data.title}
+            </h1>
 
-          <div className="flex flex-col items-center gap-4 text-base text-slate-400">
-            <time className="text-lg">{formattedDate}</time>
+            {/* Meta info */}
+            <div className="flex flex-wrap items-center gap-4 mb-6">
+              <time className="text-slate-300 text-lg">{formattedDate}</time>
 
-            <div className="flex flex-wrap justify-center gap-3">
-              {page.tags.map((tag, index) => (
-                <span
-                  key={index}
-                  className="rounded-full border border-yellow-400/40 bg-yellow-400/10 px-4 py-1.5 text-sm font-medium text-yellow-300"
-                >
-                  {tag}
-                </span>
-              ))}
+              {/* Tags */}
+              <div className="flex flex-wrap gap-2">
+                {page.tags.map((tag, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-gradient-to-r from-yellow-400/10 to-amber-400/10 border border-yellow-400/30 text-yellow-300 text-sm font-medium rounded-full"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent" />
+          </div>
+        </div>
+
+        {/* Content card with proper contrast */}
+        <Bounded>
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-gradient-to-br from-slate-900/60 to-slate-800/60 backdrop-blur-sm border border-slate-700/50 rounded-3xl p-6 md:p-8 shadow-2xl">
+              {/* Content area with readable width */}
+              <div className="project-content">
+                <SliceZone slices={page.data.slices} components={components} />
+              </div>
             </div>
           </div>
-
-          <div className="mt-12 h-px w-24 bg-gradient-to-r from-yellow-400/50 via-transparent to-yellow-400/50 mx-auto" />
-        </div>
+        </Bounded>
       </div>
-
-      {/* PROJECT CONTENT: JUMBOTRON CARD */}
-      <Bounded as="section">
-        <div className="max-w-5xl mx-auto px-6 md:px-12 -mt-16 relative z-10">
-          <div className="bg-slate-800/90 backdrop-blur-lg rounded-3xl border border-slate-700/60 shadow-2xl p-8 md:p-16 space-y-12">
-            <div className="project-content prose prose-invert max-w-none">
-              <SliceZone slices={page.data.slices} components={components} />
-            </div>
-          </div>
-        </div>
-      </Bounded>
     </article>
   );
 }
