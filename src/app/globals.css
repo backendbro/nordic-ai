@@ -123,30 +123,13 @@
     border-radius: 2px;
   }
 
-  /* Enhanced Images & Videos */
-  .project-content img,
-  .project-content iframe,
-  .project-content video {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    border-radius: 1.5rem;
-    box-shadow:
-      0 25px 50px rgba(0, 0, 0, 0.5),
-      0 0 0 1px rgba(255, 255, 255, 0.05);
-    margin: 3rem 0;
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-  }
-
-  .project-content img:hover,
-  .project-content video:hover {
-    transform: translateY(-4px);
-    box-shadow:
-      0 35px 70px rgba(0, 0, 0, 0.6),
-      0 0 0 1px rgba(255, 255, 255, 0.1);
+  .project-content p {
+    font-size: 1.2rem;
+    line-height: 1.9;
+    color: rgb(226 232 240);
+    font-weight: 450;
+    text-align: justify;
+    hyphens: auto;
   }
 
   /* Enhanced Blockquotes */

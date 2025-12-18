@@ -12,14 +12,14 @@ const VideoBlock: FC<VideoBlockProps> = ({ slice }) => {
   }
 
   return (
-    <section className="my-24">
-      <div className="relative mx-auto max-w-4xl overflow-hidden rounded-3xl border border-slate-700/50 shadow-2xl">
+    <div className="relative w-full overflow-hidden rounded-2xl my-8">
+      <div className="relative aspect-video w-full">
         <div
-          className="relative aspect-video w-full [&_iframe]:absolute [&_iframe]:inset-0 [&_iframe]:h-full [&_iframe]:w-full"
+          className="absolute inset-0 w-full h-full [&_iframe]:absolute [&_iframe]:inset-0 [&_iframe]:w-full [&_iframe]:h-full [&_iframe]:border-0 [&_iframe]:rounded-2xl"
           dangerouslySetInnerHTML={{ __html: video.html }}
         />
       </div>
-    </section>
+    </div>
   );
 };
 
