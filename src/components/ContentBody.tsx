@@ -22,12 +22,12 @@ export default function ContentBody({
 
   return (
     <article className="relative">
-      {/* CARD CONTAINER */}
+      {/* CARD CONTAINER WITH AESTHETIC FLAIR */}
       <Bounded as="section">
-        <div className="max-w-4xl mx-auto px-6 md:px-12 py-16 bg-slate-900 border border-slate-700 shadow-lg">
+        <div className="max-w-4xl mx-auto px-8 md:px-16 py-16 md:py-24 bg-slate-900/90 border border-slate-700/50 rounded-3xl shadow-2xl backdrop-blur-lg space-y-12">
           {/* HEADER INSIDE CARD */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-semibold text-slate-100 leading-tight mb-4">
+          <div className="text-center">
+            <h1 className="text-5xl md:text-6xl font-bold text-slate-100 leading-tight mb-4">
               {page.data.title}
             </h1>
 
@@ -48,7 +48,7 @@ export default function ContentBody({
           </div>
 
           {/* CONTENT BODY */}
-          <div className="project-content prose prose-invert max-w-none space-y-12">
+          <div className="project-content prose prose-invert max-w-none space-y-16">
             <SliceZone slices={page.data.slices} components={components} />
           </div>
         </div>
