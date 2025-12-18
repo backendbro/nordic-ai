@@ -1,3 +1,5 @@
+"use client";
+
 import { FC, useRef, useEffect } from "react";
 import { Content } from "@prismicio/client";
 import { SliceComponentProps } from "@prismicio/react";
