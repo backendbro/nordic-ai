@@ -35,51 +35,95 @@
     background-size: cover;
   }
 
-  /* ---- Typography Enhancements (ONLY what Tailwind Prose doesn't handle well) ---- */
-
+  /* Enhanced Typography */
   .prose {
-    line-height: 1.75;
+    line-height: 1.8;
+    font-size: 1.125rem;
   }
 
   .prose p {
-    color: rgb(203 213 225); /* slate-300 */
+    color: rgb(203 213 225);
+    margin-bottom: 1.75rem;
   }
 
   .prose h2,
   .prose h3,
   .prose h4 {
     letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #f1f5f9, #cbd5e1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .prose pre {
-    background: rgb(30 41 59); /* slate-800 */
+    background: rgb(30 41 59);
   }
 
   .prose code {
-    background: rgb(51 65 85); /* slate-700 */
+    background: rgb(51 65 85);
     border-radius: 0.375rem;
     padding: 0.2rem 0.4rem;
   }
 }
 
 @layer base {
-  /* Content body typography */
+  /* Enhanced Content body typography */
+  .project-content {
+    position: relative;
+  }
+
   .project-content p {
     font-size: 1.2rem;
     line-height: 1.9;
     color: rgb(226 232 240);
     font-weight: 450;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  /* First paragraph gets special treatment */
+  .project-content p:first-of-type {
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: rgb(241 245 249);
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .project-content p:first-of-type::before {
+    content: '"';
+    position: absolute;
+    left: 0;
+    top: -0.5rem;
+    font-size: 4rem;
+    color: rgb(100 116 139);
+    font-family: serif;
+    line-height: 1;
   }
 
   .project-content h2,
   .project-content h3,
   .project-content h4 {
     letter-spacing: -0.02em;
-    margin-top: 3rem;
-    margin-bottom: 1.5rem;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    position: relative;
+    padding-bottom: 1rem;
   }
 
-  /* Images & Videos: fill container + subtle shadow */
+  .project-content h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 4rem;
+    height: 3px;
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+    border-radius: 2px;
+  }
+
+  /* Enhanced Images & Videos */
   .project-content img,
   .project-content iframe,
   .project-content video {
@@ -87,34 +131,157 @@
     width: 100%;
     max-width: 100%;
     height: auto;
-    border-radius: 1rem;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
-    margin: 2rem 0;
+    border-radius: 1.5rem;
+    box-shadow:
+      0 25px 50px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+    margin: 3rem 0;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
-  /* Blockquotes */
+  .project-content img:hover,
+  .project-content video:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 35px 70px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+
+  /* Enhanced Blockquotes */
   .project-content blockquote {
-    border-left: 5px solid rgb(100 116 139);
-    padding-left: 1.5rem;
-    margin: 3rem 0;
+    border: none;
+    padding: 2rem 2.5rem;
+    margin: 4rem 0;
     font-style: italic;
     color: rgb(203 213 225);
-    background: rgba(71, 85, 105, 0.1);
-    border-radius: 0.5rem;
+    background: linear-gradient(
+      135deg,
+      rgba(71, 85, 105, 0.15),
+      rgba(51, 65, 85, 0.1)
+    );
+    border-radius: 1rem;
+    border-left: 5px solid #fbbf24;
+    position: relative;
+    font-size: 1.25rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   }
 
-  /* Code blocks */
+  .project-content blockquote::before {
+    content: '"';
+    position: absolute;
+    top: 1rem;
+    left: 1.5rem;
+    font-size: 3rem;
+    color: #fbbf24;
+    font-family: serif;
+    line-height: 1;
+  }
+
+  /* Enhanced Code blocks */
   .project-content pre {
-    background: rgb(30 41 59);
-    padding: 2rem;
-    border-radius: 1rem;
+    background: linear-gradient(135deg, rgb(30 41 59), rgb(15 23 42));
+    padding: 2.5rem;
+    border-radius: 1.5rem;
     overflow-x: auto;
     margin: 3rem 0;
+    border: 1px solid rgba(100, 116, 139, 0.2);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
   }
 
   .project-content code {
     background: rgb(51 65 85);
-    padding: 0.25rem 0.4rem;
-    border-radius: 0.375rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.9em;
+    border: 1px solid rgba(100, 116, 139, 0.2);
+  }
+
+  /* Reading progress indicator */
+  .reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(100, 116, 139, 0.2);
+    z-index: 1000;
+  }
+
+  .reading-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+    transition: width 0.1s ease;
+  }
+
+  /* Subtle animations */
+  .project-content > * {
+    animation: fadeInUp 0.6s ease forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .project-content > *:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .project-content > *:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .project-content > *:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  .project-content > *:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+  .project-content > *:nth-child(n + 5) {
+    animation-delay: 0.5s;
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Table styling */
+  .project-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 3rem 0;
+    background: rgba(71, 85, 105, 0.1);
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .project-content th,
+  .project-content td {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+  }
+
+  .project-content th {
+    background: rgba(100, 116, 139, 0.2);
+    font-weight: 600;
+    color: rgb(241 245 249);
+  }
+
+  /* Lists styling */
+  .project-content ul,
+  .project-content ol {
+    margin: 2rem 0;
+    padding-left: 2rem;
+  }
+
+  .project-content li {
+    margin-bottom: 0.75rem;
+    line-height: 1.8;
+  }
+
+  .project-content li::marker {
+    color: #fbbf24;
   }
 }

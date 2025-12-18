@@ -2,12 +2,28 @@ import { Content, DateField, isFilled } from "@prismicio/client";
 import { SliceZone } from "@prismicio/react";
 import { components } from "@/slices";
 import Bounded from "@/components/Bounded";
+import { useEffect, useState } from "react";
 
 export default function ContentBody({
   page,
 }: {
   page: Content.BlogPostDocument | Content.ProjectDocument;
 }) {
+  const [readingProgress, setReadingProgress] = useState(0);
+
+  useEffect(() => {
+    const updateReadingProgress = () => {
+      const scrollTop = window.scrollY;
+      const docHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / docHeight) * 100;
+      setReadingProgress(progress);
+    };
+
+    window.addEventListener("scroll", updateReadingProgress);
+    return () => window.removeEventListener("scroll", updateReadingProgress);
+  }, []);
+
   function formatDate(date: DateField) {
     if (isFilled.date(date)) {
       return new Intl.DateTimeFormat("en-US", {
@@ -19,40 +35,88 @@ export default function ContentBody({
   }
 
   const formattedDate = formatDate(page.data.date);
+  const estimatedReadTime = Math.ceil((page.data.slices?.length || 1) * 2); // Rough estimate
 
   return (
-    <article className="relative">
-      {/* CARD CONTAINER WITH AESTHETIC FLAIR */}
-      <Bounded as="section">
-        <div className="max-w-4xl mx-auto px-8 md:px-16 py-16 md:py-24 bg-slate-900/90 border border-slate-700/50 rounded-3xl shadow-2xl backdrop-blur-lg space-y-12">
-          {/* HEADER INSIDE CARD */}
-          <div className="text-center">
-            <h1 className="text-5xl md:text-6xl font-bold text-slate-100 leading-tight mb-4">
-              {page.data.title}
-            </h1>
+    <>
+      {/* Reading Progress Bar */}
+      <div className="reading-progress">
+        <div
+          className="reading-progress-bar"
+          style={{ width: `${readingProgress}%` }}
+        />
+      </div>
 
-            <time className="block text-lg text-slate-400 mb-4">
-              {formattedDate}
-            </time>
+      <article className="relative">
+        <Bounded as="section">
+          {/* ENHANCED CARD CONTAINER */}
+          <div className="max-w-4xl mx-auto px-8 md:px-16 py-16 md:py-24 bg-gradient-to-br from-slate-900/95 via-slate-800/90 to-slate-900/95 border border-slate-700/50 rounded-3xl shadow-2xl backdrop-blur-lg space-y-12 relative overflow-hidden">
+            {/* Decorative elements */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-yellow-400/10 to-transparent rounded-full blur-2xl" />
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-400/10 to-transparent rounded-full blur-xl" />
 
-            <div className="flex flex-wrap justify-center gap-3">
-              {page.tags.map((tag, index) => (
-                <span
-                  key={index}
-                  className="rounded-full border border-yellow-400/40 bg-yellow-400/10 px-4 py-1.5 text-sm font-medium text-yellow-300"
-                >
-                  {tag}
+            {/* ENHANCED HEADER */}
+            <div className="text-center relative z-10">
+              <div className="inline-flex items-center gap-3 text-sm text-slate-400 mb-6">
+                <span className="flex items-center gap-2">
+                  <svg
+                    className="w-4 h-4"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  {estimatedReadTime} min read
                 </span>
-              ))}
+                <span>•</span>
+                <time>{formattedDate}</time>
+              </div>
+
+              <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-slate-100 via-slate-200 to-slate-300 bg-clip-text text-transparent leading-tight mb-8">
+                {page.data.title}
+              </h1>
+
+              <div className="flex flex-wrap justify-center gap-3">
+                {page.tags.map((tag, index) => (
+                  <span
+                    key={index}
+                    className="group relative rounded-full border border-yellow-400/40 bg-gradient-to-r from-yellow-400/10 to-yellow-500/10 px-4 py-2 text-sm font-medium text-yellow-300 transition-all duration-300 hover:border-yellow-400/60 hover:bg-yellow-400/20 hover:scale-105"
+                  >
+                    <span className="relative z-10">{tag}</span>
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400/0 via-yellow-400/10 to-yellow-400/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Separator with flair */}
+            <div className="flex items-center justify-center space-x-4">
+              <div className="h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent flex-1" />
+              <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
+              <div className="h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent flex-1" />
+            </div>
+
+            {/* ENHANCED CONTENT BODY */}
+            <div className="project-content prose prose-invert max-w-none space-y-16 relative z-10">
+              <SliceZone slices={page.data.slices} components={components} />
+            </div>
+
+            {/* Call-to-action footer */}
+            <div className="pt-12 border-t border-slate-700/50 text-center">
+              <div className="inline-flex items-center gap-3 text-slate-400 text-sm">
+                <span>Enjoyed this project?</span>
+                <button className="text-yellow-400 hover:text-yellow-300 transition-colors duration-200 font-medium">
+                  Share it →
+                </button>
+              </div>
             </div>
           </div>
-
-          {/* CONTENT BODY */}
-          <div className="project-content prose prose-invert max-w-none space-y-16">
-            <SliceZone slices={page.data.slices} components={components} />
-          </div>
-        </div>
-      </Bounded>
-    </article>
+        </Bounded>
+      </article>
+    </>
   );
 }
