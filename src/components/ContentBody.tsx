@@ -1,5 +1,4 @@
-"use client";
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Content, DateField, isFilled } from "@prismicio/client";
 import { SliceZone } from "@prismicio/react";
 import { components } from "@/slices";
@@ -18,11 +17,11 @@ export default function ContentBody({
       const scrollTop = window.scrollY;
       const docHeight =
         document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (scrollTop / docHeight) * 100;
+      const progress = Math.min((scrollTop / docHeight) * 100, 100);
       setReadingProgress(progress);
     };
 
-    window.addEventListener("scroll", updateReadingProgress);
+    window.addEventListener("scroll", updateReadingProgress, { passive: true });
     return () => window.removeEventListener("scroll", updateReadingProgress);
   }, []);
 
@@ -36,15 +35,65 @@ export default function ContentBody({
     }
   }
 
+  // More accurate reading time calculation
+  function calculateReadingTime() {
+    let totalWords = 0;
+
+    // Count words in title
+    if (page.data.title) {
+      totalWords += page.data.title.split(/\s+/).length;
+    }
+
+    // Estimate words from slices (more accurate)
+    if (page.data.slices) {
+      page.data.slices.forEach((slice: any) => {
+        // Text slices
+        if (
+          slice.slice_type === "text_block" ||
+          slice.slice_type === "rich_text"
+        ) {
+          if (slice.primary?.text) {
+            const textContent = slice.primary.text
+              .map((item: any) => item.text || "")
+              .join(" ");
+            totalWords += textContent
+              .split(/\s+/)
+              .filter((word: string | any[]) => word.length > 0).length;
+          }
+        }
+
+        // Code blocks (read slower)
+        if (slice.slice_type === "code_block") {
+          totalWords += 50; // Estimate for code blocks
+        }
+
+        // Image/video blocks (quick scan time)
+        if (
+          slice.slice_type === "image_block" ||
+          slice.slice_type === "video_block"
+        ) {
+          totalWords += 20; // Time to view media
+        }
+      });
+    }
+
+    // Average reading speed: 200-250 words per minute
+    // Using 220 WPM for better accuracy
+    const readingSpeed = 220;
+    const minutes = Math.ceil(totalWords / readingSpeed);
+
+    return Math.max(1, minutes); // Minimum 1 minute
+  }
+
   const formattedDate = formatDate(page.data.date);
-  const estimatedReadTime = Math.ceil((page.data.slices?.length || 1) * 2); // Rough estimate
+  const estimatedReadTime = calculateReadingTime();
 
   return (
     <>
-      {/* Reading Progress Bar */}
-      <div className="reading-progress">
+      {/* Subtle Reading Progress Bar */}
+      <div className="fixed top-0 left-0 w-full h-1 bg-slate-800/50 backdrop-blur-sm z-50">
         <div
-          className="reading-progress-bar"
+          className="h-full bg-gradient-to-r from-slate-600 via-slate-500 to-slate-400 transition-all duration-150 ease-out"
           style={{ width: `${readingProgress}%` }}
         />
       </div>
