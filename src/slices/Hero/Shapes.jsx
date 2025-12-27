@@ -121,7 +121,7 @@
 
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float } from "@react-three/drei";
+import { Float, Environment } from "@react-three/drei";
 import { Suspense, useMemo, useRef } from "react";
 
 /* -----------------------------
@@ -140,18 +140,18 @@ function AICoreDiamond() {
     () =>
       new THREE.MeshStandardMaterial({
         color: "#bde6ff",
-        metalness: 0.9,
-        roughness: 0.1,
+        metalness: 0.95,
+        roughness: 0.06,
         emissive: "#83caff",
-        emissiveIntensity: 0.35,
+        emissiveIntensity: 0.45,
       }),
     []
   );
 
   return (
-    <Float speed={1} floatIntensity={0.6}>
+    <Float speed={1} floatIntensity={0.8}>
       <mesh ref={ref} material={material}>
-        <octahedronGeometry args={[3, 0]} />
+        <octahedronGeometry args={[3.2, 0]} />
       </mesh>
     </Float>
   );
@@ -163,16 +163,16 @@ function AICoreDiamond() {
 function NeuralVeins() {
   const geometry = useMemo(() => {
     const points = [];
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 36; i++) {
       points.push(
         new THREE.Vector3(
-          (Math.random() - 0.5) * 10,
-          (Math.random() - 0.5) * 10,
+          (Math.random() - 0.5) * 12,
+          (Math.random() - 0.5) * 12,
           -5
         ),
         new THREE.Vector3(
-          (Math.random() - 0.5) * 10,
-          (Math.random() - 0.5) * 10,
+          (Math.random() - 0.5) * 12,
+          (Math.random() - 0.5) * 12,
           -5
         )
       );
@@ -182,7 +182,7 @@ function NeuralVeins() {
 
   return (
     <lineSegments geometry={geometry}>
-      <lineBasicMaterial color="#6ecbff" opacity={0.12} transparent />
+      <lineBasicMaterial color="#6ecbff" opacity={0.15} transparent />
     </lineSegments>
   );
 }
@@ -194,10 +194,10 @@ function ParticleSurge() {
   const ref = useRef(null);
 
   const geometry = useMemo(() => {
-    const count = 400;
+    const count = 700;
     const positions = new Float32Array(count * 3);
     for (let i = 0; i < positions.length; i++) {
-      positions[i] = (Math.random() - 0.5) * 12;
+      positions[i] = (Math.random() - 0.5) * 14;
     }
     const geo = new THREE.BufferGeometry();
     geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
@@ -210,7 +210,7 @@ function ParticleSurge() {
 
   return (
     <points ref={ref} geometry={geometry}>
-      <pointsMaterial size={0.045} color="#c5ecff" />
+      <pointsMaterial size={0.05} color="#c5ecff" opacity={0.9} />
     </points>
   );
 }
@@ -219,20 +219,30 @@ function ParticleSurge() {
    MAIN
 -------------------------------- */
 export function Shapes() {
+  const isMobile =
+    typeof window !== "undefined" &&
+    window.matchMedia("(max-width: 768px)").matches;
+
   return (
     <div className="aspect-square md:col-span-1 md:col-start-2">
       <Canvas
-        camera={{ position: [0, 0, 16], fov: 32 }}
-        dpr={[1, 1.25]}
-        gl={{ powerPreference: "high-performance", antialias: false }}
+        camera={{ position: [0, 0, 18], fov: 30 }}
+        dpr={isMobile ? 1 : [1, 1.5]}
+        gl={{
+          powerPreference: "high-performance",
+          antialias: !isMobile,
+        }}
       >
         <Suspense fallback={null}>
-          <ambientLight intensity={0.5} />
-          <directionalLight position={[5, 5, 10]} intensity={1.2} />
+          <ambientLight intensity={0.4} />
+          <pointLight position={[5, 5, 10]} intensity={1.8} />
 
           <NeuralVeins />
           <ParticleSurge />
           <AICoreDiamond />
+
+          {/* Low-cost environment for crisp reflections */}
+          <Environment preset="night" resolution={128} />
         </Suspense>
       </Canvas>
     </div>
