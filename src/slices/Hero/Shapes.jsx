@@ -117,7 +117,6 @@
 //   );
 // }
 
-
 "use client";
 
 import * as THREE from "three";
@@ -129,7 +128,7 @@ import { Suspense, useMemo, useRef } from "react";
    AI CORE DIAMOND
 -------------------------------- */
 function AICoreDiamond() {
-  const ref = useRef<THREE.Mesh>(null!);
+  const ref = useRef(null);
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
@@ -159,7 +158,7 @@ function AICoreDiamond() {
 }
 
 /* -----------------------------
-   NEURAL VEINS (LIGHTWEIGHT)
+   NEURAL VEINS
 -------------------------------- */
 function NeuralVeins() {
   const geometry = useMemo(() => {
@@ -189,10 +188,10 @@ function NeuralVeins() {
 }
 
 /* -----------------------------
-   PARTICLES (STATIC + ROTATE)
+   PARTICLES
 -------------------------------- */
 function ParticleSurge() {
-  const ref = useRef<THREE.Points>(null!);
+  const ref = useRef(null);
 
   const geometry = useMemo(() => {
     const count = 400;
@@ -217,7 +216,7 @@ function ParticleSurge() {
 }
 
 /* -----------------------------
-   MAIN SCENE
+   MAIN
 -------------------------------- */
 export function Shapes() {
   return (
